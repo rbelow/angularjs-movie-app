@@ -2,9 +2,11 @@
 
 describe('Search Controller', function () {
   // "controller as" approach
-  var $this
+  // var $this
+  var $scope
   var $location
-  var $controller
+  // var $controller
+  var $timeout
 
   // $controller(
   //   constructor, // string or function (for brainstorming)
@@ -14,10 +16,16 @@ describe('Search Controller', function () {
 
   beforeEach(module('movieApp'))
 
-  beforeEach(inject(function (_$controller_, _$location_) {
-    $controller = _$controller_
+  beforeEach(inject(function (_$controller_, _$location_, _$timeout_) {
+    $scope = {}
     $location = _$location_
-    // _$controller_('SearchController', { $scope: $scope, $location: $location })
+    // $controller = _$controller_
+    $timeout = _$timeout_
+    _$controller_('SearchController', {
+      $scope: $scope,
+      $location: _$location_,
+      $timeout: _$timeout_
+    })
 
     // var fn = function($scope) {
     //   $scope.search = function () {
@@ -35,16 +43,45 @@ describe('Search Controller', function () {
 
   it('should redirect to the query results page for non-empty query', function () {
     // $this.query = 'star wars'
-    $this = $controller('SearchController', { $location: $location }, { query: 'star wars' })
-    $this.search()
+    // $this = $controller('SearchController', { $location: $location }, { query: 'star wars' })
+    // $this.search()
+
+    $scope.query = 'star wars'
+    $scope.search()
     // https://docs.angularjs.org/api/ng/service/$location
     expect($location.url()).toBe('/results?q=star%20wars')
   })
 
   it('should not redirect to query results for empty query', function () {
     // $this.query = ''
-    $this = $controller('SearchController', { $location: $location }, { query: '' })
-    $this.search()
+    // $this = $controller('SearchController', { $location: $location }, { query: '' })
+    // $this.search()
+
+    $scope.query = ''
+    $scope.search()
     expect($location.url()).toBe('')
+  })
+
+  it('should redirect after 1 second of keyboard inactivity', function () {
+    $scope.query = 'star wars'
+    $scope.keyup()
+    // FIXME: https://stackoverflow.com/questions/22405085/mocking-httpbackend-how-to-handle-unexpected-request-no-more-request-expect
+    $timeout.flush()
+    expect($timeout.verifyNoPendingTasks).not.toThrow()
+    expect($location.url()).toBe('/results?q=star%20wars')
+  })
+
+  it('should cancel timeout in keydown', function () {
+    $scope.query = 'star wars'
+    $scope.keyup()
+    $scope.keydown()
+    expect($timeout.verifyNoPendingTasks).not.toThrow()
+  })
+
+  it('should cancel timeout on search', function () {
+    $scope.query = 'star wars'
+    $scope.keyup()
+    $scope.search()
+    expect($timeout.verifyNoPendingTasks).not.toThrow()
   })
 })
