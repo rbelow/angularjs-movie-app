@@ -17,7 +17,8 @@ angular // eslint-disable-line
       $timeout.cancel(timeout)
       if ($scope.query) { // `this.query`
         // https://docs.angularjs.org/api/ng/service/$location#search
-        $location.path('/results').search('q', this.query)
+        $location.path('/results').search('q', $scope.query) // FIXME: `$http` `GET` exception
       }
-    }
+    } // FIXME: `$http` `GET` exception
   })
+ 
