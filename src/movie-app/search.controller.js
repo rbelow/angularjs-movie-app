@@ -21,4 +21,3 @@ angular // eslint-disable-line
       }
     } // FIXME: `$http` `GET` exception
   })
- 

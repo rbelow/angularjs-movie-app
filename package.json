@@ -23,7 +23,9 @@
     ],
     "globals": [
       "angular",
-      "inject"
+      "inject",
+      "$interval",
+      "_omdbApi_"
     ]
   },
   "keywords": [

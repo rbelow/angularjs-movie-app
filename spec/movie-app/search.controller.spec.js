@@ -77,8 +77,8 @@ describe('Search Controller', function () {
   //   // NOTE: `verifyNoPendingTasks()` outputs usefull console log
   //   // $timeout.verifyNoPendingTasks()
   //   // expect(function() { $timeout.flush() }).toThrow()
-	// 	expect($timeout.verifyNoPendingTasks).not.toThrow()
-	// 	expect($location.url()).toBe('/results?q=star%20wars')
+  //  expect($timeout.verifyNoPendingTasks).not.toThrow()
+  //  expect($location.url()).toBe('/results?q=star%20wars')
   // })
 
   it('should cancel timeout in keydown', function () {
