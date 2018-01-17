@@ -20,6 +20,7 @@ describe('Home Controller', function () {
   var $interval
   var omdbApi
 
+  beforeEach(module('omdb'))
   beforeEach(module('movieApp'))
 
   beforeEach(inject(function (_$interval_, _omdbApi_) {
@@ -39,7 +40,7 @@ describe('Home Controller', function () {
   }))
 
   // mock `omdbApi.find` function
-  beforeEach(inject(function (_$q_, _onmdbApi_) {
+  beforeEach(inject(function (_$q_, _omdbApi_) {
     spyOn(_omdbApi_, 'find').and.callFake(function () {
       var deferred = _$q_.defer()
       // https://jasmine.github.io/2.4/introduction.html#section-36
