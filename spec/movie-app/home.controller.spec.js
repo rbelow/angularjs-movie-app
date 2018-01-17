@@ -22,11 +22,11 @@ describe('Home Controller', function () {
 
   beforeEach(module('movieApp'))
 
-  beforeEach(inject(function(_$interval_, _omdbApi_) {
+  beforeEach(inject(function (_$interval_, _omdbApi_) {
     $scope = {}
     $interval = _$interval_ // eslint-disable-line no-global-assign
     omdbApi = _omdbApi_
-  }));
+  }))
 
   // mock `$http` calls
   beforeEach(inject(function (_$q_, _PopularMovies_) {
