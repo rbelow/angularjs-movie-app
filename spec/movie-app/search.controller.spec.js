@@ -65,7 +65,7 @@ describe('Search Controller', function () {
 
     $scope.query = ''
     $scope.search()
-    expect($location.url()).toBe('/')
+    expect($location.url()).toBe('')
   })
 
   // it('should redirect after 1 second of keyboard inactivity', function () {
