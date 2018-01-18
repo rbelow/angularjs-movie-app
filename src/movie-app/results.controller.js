@@ -16,4 +16,13 @@ angular // eslint-disable-line
       .catch(function () {
         $scope.errorMessage = 'Something went wrong!'
       })
+
+    // expand search result movie data
+    $scope.expand = function expand(index, id) {
+      omdbApi.find(id)
+        .then(function(data) {
+          $scope.results[index].data = data
+          $scope.results[index].open = true
+        })
+    }
   })
