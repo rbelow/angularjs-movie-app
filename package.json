@@ -19,7 +19,8 @@
   },
   "standard": {
     "ignore": [
-      "/lib/"
+      "/lib/",
+      "/Resources/"
     ],
     "globals": [
       "angular",

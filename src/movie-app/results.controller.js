@@ -18,9 +18,9 @@ angular // eslint-disable-line
       })
 
     // expand search result movie data
-    $scope.expand = function expand(index, id) {
+    $scope.expand = function expand (index, id) {
       omdbApi.find(id)
-        .then(function(data) {
+        .then(function (data) {
           $scope.results[index].data = data
           $scope.results[index].open = true
         })
