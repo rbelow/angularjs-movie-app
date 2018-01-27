@@ -24,12 +24,18 @@ describe('Home Controller', function () {
   var omdbApi
   var PopularMovies
   var $exceptionHandler
+  var $log
 
   // beforeEach(module('omdb'))
   beforeEach(module('movieApp'))
 
   beforeEach(module(function ($exceptionHandlerProvider) {
     $exceptionHandlerProvider.mode('log')
+  }))
+
+  beforeEach(module(function ($logProvider) {
+    // configure debugging level (default is `true`)
+    $logProvider.debugEnabled(true)
   }))
 
   // beforeEach(inject(function (_$interval_, _omdbApi_) {
@@ -71,13 +77,14 @@ describe('Home Controller', function () {
     })
   }))
 
-  beforeEach(inject(function (_$controller_, _$interval_, _$q_, _$exceptionHandler_, _$rootScope_, _omdbApi_, _PopularMovies_) {
+  beforeEach(inject(function (_$controller_, _$interval_, _$q_, _$exceptionHandler_, _$log_, _$rootScope_, _omdbApi_, _PopularMovies_) {
     $scope = {}
     $interval = _$interval_ // eslint-disable-line no-global-assign
     $q = _$q_
     $controller = _$controller_
     $rootScope = _$rootScope_
     $exceptionHandler = _$exceptionHandler_
+    $log = _$log_
     omdbApi = _omdbApi_
     PopularMovies = _PopularMovies_
   }))
@@ -123,6 +130,20 @@ describe('Home Controller', function () {
     // should return to default
     $interval.flush(5000)
     expect($scope.result.Title).toBe(results[0].Title)
+
+    // clear all log levels
+    // $log.reset()
+
+    // throw an exception if any of the log levels has a value.
+    // if this happens, details are displayed in the console output
+    // $log.assertEmpty()
+
+    expect($log.log.logs[0]).toEqual(['standard log'])
+    // console.log(angular.mock.dump($log.log.logs))
+    // console.log(angular.mock.dump($log.info.logs))
+    // console.log(angular.mock.dump($log.error.logs))
+    // console.log(angular.mock.dump($log.warn.logs))
+    // console.log(angular.mock.dump($log.debug.logs))
   })
 
   it('should handle error', function () {
