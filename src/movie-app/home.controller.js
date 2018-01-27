@@ -1,5 +1,5 @@
 angular.module('movieApp')
-  .controller('HomeController', function ($scope, $interval, omdbApi, PopularMovies) {
+  .controller('HomeController', function ($scope, $interval, $exceptionHandler, omdbApi, PopularMovies) {
     // TODO: debug
     var results = []
     var idx = 0
@@ -8,6 +8,9 @@ angular.module('movieApp')
       omdbApi.find(id)
         .then(function (data) {
           $scope.result = data
+        })
+        .catch(function (e) {
+          $exceptionHandler(e)
         })
     }
 

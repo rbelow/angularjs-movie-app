@@ -1,11 +1,11 @@
 angular.module('movieApp')
   .filter('fromNow', function () {
     return function (value, baseDate) {
-      if (!value) { throw 'date value cannot be undefined' }
+      if (!value) { throw 'date value cannot be undefined' } // eslint-disable-line
 
       var date = value
 
-      if (typeof(value) === 'string') {
+      if (typeof (value) === 'string') {
         date = new Date(date)
       }
 

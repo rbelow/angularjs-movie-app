@@ -40,9 +40,7 @@ describe('Movie Result Directive', function () {
     // scope.result = result
     // use an angularjs scope object and not a native javascript object using the `$rootScope` service
     $rootScope.result = result
-    var element
-
-    element = $compile('<movie-result result="result"></movie-result>')($rootScope)
+    var element = $compile('<movie-result result="result"></movie-result>')($rootScope)
     // `$digest` to `$compile`
     $rootScope.$digest()
     // console.log(element[0].outerHTML)

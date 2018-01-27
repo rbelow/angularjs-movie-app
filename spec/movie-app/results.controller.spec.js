@@ -26,17 +26,23 @@ describe('Results Controller', function () {
   var $q
   var $rootScope
   var $scope
+  var $exceptionHandler
   var omdbApi
 
   // beforeEach(module('omdb'))
   beforeEach(module('movieApp'))
 
-  beforeEach(inject(function (_$controller_, _$location_, _$q_, _$rootScope_, _omdbApi_) {
+  beforeEach(module(function ($exceptionHandlerProvider) {
+    $exceptionHandlerProvider.mode('log')
+  }))
+
+  beforeEach(inject(function (_$controller_, _$location_, _$q_, _$rootScope_, _$exceptionHandler_, _omdbApi_) {
     $controller = _$controller_
-    $location = _$location_
     $scope = {}
+    $location = _$location_
     $q = _$q_
     $rootScope = _$rootScope_
+    $exceptionHandler = _$exceptionHandler_
     omdbApi = _omdbApi_
   }))
 
@@ -56,7 +62,7 @@ describe('Results Controller', function () {
       return deferred.promise
     })
     $location.search('q', 'star wars')
-    $controller('ResultsController', {$scope: $scope})
+    $controller('ResultsController', { $scope: $scope })
     // resolve the promise calling `$apply()` on the `$rootScope` service, triggering
     // angularjs's event cycle
     $rootScope.$apply()
@@ -72,15 +78,26 @@ describe('Results Controller', function () {
     spyOn(omdbApi, 'search').and.callFake(function () {
       var deferred = $q.defer()
       // https://docs.angularjs.org/api/ng/service/$q#reject
-      deferred.reject()
+      deferred.reject('Something went wrong!')
       return deferred.promise
     })
     $location.search('q', 'star wars')
-    $controller('ResultsController', {$scope: $scope})
+    // $controller('ResultsController', { $scope: $scope })
     // resolve the promise calling `$apply()` on the `$rootScope` service, triggering
     // angularjs's event cycle
-    $rootScope.$apply()
+    // $rootScope.$apply()
     // expect($scope.results[0].data.Title).toBe(results.Search[0].Title)
-    expect($scope.errorMessage).toBe('Something went wrong!')
+    // expect($scope.errorMessage).toBe('Something went wrong!')
+
+    // test `$exceptionHandler` default `rethrow` mode
+    // expect(function () {
+    //   $controller('ResultsController', { $scope: $scope })
+    //   $rootScope.$apply()
+    // }).toThrow('Something went wrong!')
+
+    $controller('ResultsController', { $scope: $scope })
+    $rootScope.$apply()
+    // console.log($exceptionHandler.errors)
+    expect($exceptionHandler.errors[0]).toEqual('Something went wrong!')
   })
 })

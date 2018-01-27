@@ -1,6 +1,6 @@
 angular // eslint-disable-line
   .module('movieApp')
-  .controller('ResultsController', function ($scope, $location, omdbApi) {
+  .controller('ResultsController', function ($scope, $location, $exceptionHandler, omdbApi) {
     // $scope.results = []
     // $scope.results.push({ data: { Title:"Star Wars: Episode IV - A New Hope" }})
     // $scope.results.push({ data: { Title: "Star Wars: Episode V - The Empire Strikes Back" }})
@@ -13,8 +13,12 @@ angular // eslint-disable-line
       .then(function (data) {
         $scope.results = data.Search
       })
-      .catch(function () {
-        $scope.errorMessage = 'Something went wrong!'
+      .catch(function (e) {
+        // it's *not* angularjs best practice to `throw` native exceptions
+        // throw 'Something went wrong!' // eslint-disable-line
+        $exceptionHandler(e)
+        // $exceptionHandler(e)
+        // $exceptionHandler('something else went wrong')
       })
 
     // expand search result movie data
