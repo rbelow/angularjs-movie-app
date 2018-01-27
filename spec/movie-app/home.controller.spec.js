@@ -18,7 +18,7 @@ describe('Home Controller', function () {
   ]
   var $scope
   var $interval
-  var $q
+  var $q // eslint-disable-line
   var $controller
   var $rootScope
   var omdbApi
@@ -104,11 +104,14 @@ describe('Home Controller', function () {
   // }))
 
   it('should rotate movies every 5 seconds', function () {
-    spyOn(PopularMovies, 'get').and.callFake(function () {
-      // https://docs.angularjs.org/api/ng/service/$q#defer
-      var deferred = $q.defer()
-      deferred.resolve(['tt0076759', 'tt0080684', 'tt0086190'])
-      return deferred.promise
+    // spyOn(PopularMovies, 'get').and.callFake(function () {
+    //   // https://docs.angularjs.org/api/ng/service/$q#defer
+    //   var deferred = $q.defer()
+    //   deferred.resolve(['tt0076759', 'tt0080684', 'tt0086190'])
+    //   return deferred.promise
+    // })
+    spyOn(PopularMovies, 'query').and.callFake(function (cb) {
+      cb(['tt0076759', 'tt0080684', 'tt0086190']) // eslint-disable-line
     })
 
     $controller('HomeController', {
@@ -147,11 +150,14 @@ describe('Home Controller', function () {
   })
 
   it('should handle error', function () {
-    spyOn(PopularMovies, 'get').and.callFake(function () {
-      // https://docs.angularjs.org/api/ng/service/$q#defer
-      var deferred = $q.defer()
-      deferred.resolve(['tt0076759', 'tt0080684', 'tt0086190', 'ttError'])
-      return deferred.promise
+    // spyOn(PopularMovies, 'get').and.callFake(function () {
+    //   // https://docs.angularjs.org/api/ng/service/$q#defer
+    //   var deferred = $q.defer()
+    //   deferred.resolve(['tt0076759', 'tt0080684', 'tt0086190', 'ttError'])
+    //   return deferred.promise
+    // })
+    spyOn(PopularMovies, 'query').and.callFake(function (cb) {
+      cb(['tt0076759', 'tt0080684', 'tt0086190', 'ttError']) // eslint-disable-line
     })
 
     $controller('HomeController', {
@@ -174,7 +180,7 @@ describe('Home Controller', function () {
     $interval.flush(5000)
     // expect($scope.result.Title).toBe(results[0].Title)
 
-    // FIXME: error string is not passed
+    console.log(angular.mock.dump($exceptionHandler))
     console.log($exceptionHandler.errors)
     expect($exceptionHandler.errors).toEqual(['error finding movie'])
   })

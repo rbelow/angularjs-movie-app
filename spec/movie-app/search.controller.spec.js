@@ -81,6 +81,14 @@ describe('Search Controller', function () {
   //  expect($location.url()).toBe('/results?q=star%20wars')
   // })
 
+  it('should redirect after 1 second if keyboard inactivity', function () {
+    $scope.query = 'star wars'
+    $scope.keyup()
+    $timeout.flush()
+    expect($timeout.verifyNoPendingTasks).not.toThrow()
+    expect($location.url()).toBe('/results?q=star%20wars')
+  })
+
   it('should cancel timeout in keydown', function () {
     $scope.query = 'star wars'
     $scope.keyup()

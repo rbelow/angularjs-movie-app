@@ -82,7 +82,6 @@ describe('Results Controller', function () {
     console.log($log.debug.logs)
     expect($log.debug.logs[0]).toEqual(['Controller loaded with query: ', 'star wars'])
     expect($log.debug.logs[1]).toEqual(['Data returned for query: ', 'star wars', results])
-
   })
 
   it('should set result status to error', function () {

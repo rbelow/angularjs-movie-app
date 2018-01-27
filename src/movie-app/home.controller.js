@@ -1,10 +1,10 @@
 angular.module('movieApp')
   .controller('HomeController', function ($scope, $interval, $exceptionHandler, $log, omdbApi, PopularMovies) {
     $log.log('standard log')
-    $log.info('info log')
-    $log.error('error log')
-    $log.warn('warn log')
-    $log.debug('some debug information')
+    // $log.info('info log')
+    // $log.error('error log')
+    // $log.warn('warn log')
+    // $log.debug('some debug information')
 
     // TODO: debug
     var results = []
@@ -23,16 +23,15 @@ angular.module('movieApp')
     // $scope.result = {}
 
     // Get PopularMovies List
-    // PopularMovies.get()
-    //   .then(function (data) {
+    PopularMovies.query(function (data) {
         // 'tt0076759', 'tt0080684', 'tt0086190'
-    var data = ['tt0076759', 'tt0080684', 'tt0086190']
-    results = data
-    findMovie(results[0])
+        // var data = ['tt0076759', 'tt0080684', 'tt0086190']
+      results = data
+      findMovie(results[0])
 
-    $interval(function () {
-      ++idx
-      findMovie(results[idx % results.length])
-    }, 5000)
-      // })
+      $interval(function () {
+        ++idx
+        findMovie(results[idx % results.length])
+      }, 5000)
+    })
   })
